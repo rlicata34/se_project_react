@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import './App.css'
+import '../blocks/App.css'
 
 function App() {
 
 
   return (
     <>
-
+      <h2>Hello!</h2>
     </>
   )
 }

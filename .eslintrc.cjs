@@ -17,16 +17,11 @@ module.exports = {
       { allowConstantExport: true },
     ],
 
-    // Disable prop-types validation.
     "react/prop-types": 0,
   },
 
-  // Add an overrides array. Without this, ESLint could only be run via
-  // the npm run lint command. Adding this will allow it to be run also
-  // via the global `npx eslint .` command.
   overrides: [
     {
-      // Without this, `npx eslint .` doesn't run on jsx files.
       files: ["*.js", "*.jsx"],
     },
   ],
