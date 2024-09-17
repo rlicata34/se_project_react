@@ -1,0 +1,19 @@
+@import url(./vendor/normalize.css);
+@font-face {
+    font-family: "Cabinet Grotesk";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("/src/assets/fonts/CabinetGrotesk-Medium.woff2") format("woff2");
+    src: url("/src/assets/fonts/CabinetGrotesk-Medium.woff") format("woff");
+    src: url("/src/assets/fonts/CabinetGrotesk-Medium.ttf") format("ttf");
+}
+@font-face {
+    font-family: "Cabinet Grotesk";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/src/assets/fonts/CabinetGrotesk-Bold.woff2") format("woff2");
+    src: url("/src/assets/fonts/CabinetGrotesk-Bold.woff") format("woff");
+    src: url("/src/assets/fonts/CabinetGrotesk-Bold.ttf") format("ttf");
+}
