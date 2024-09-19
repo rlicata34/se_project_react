@@ -1,8 +1,21 @@
-# React + Vite
+# What to Wear App 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This app works to help users decide what to wear based on the current weather in their location. They can add various clothes by completing a form, which will categorize each item to a weather type.
 
-Currently, two official plugins are available:
+## Technologies and techniques
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Semantic HTML5
+- Flexbox
+- Flat BEM file structure
+- JavaScript
+- React
+- Vite
+- functional components
+- API interactions
+- Modal forms
+
+## Link to Figma
+
+https://www.figma.com/file/F03bTb81Pw8IDPj5Y9rc5i/Sprint-10-%7C-WTWR
+
+
