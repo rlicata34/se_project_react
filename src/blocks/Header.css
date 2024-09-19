@@ -27,6 +27,7 @@
     font-weight: 700;
     font-family: "Cabinet Grotesk", sans-serif;
     padding: 0;
+    cursor: pointer;
 }
 
 .header__user-container{
