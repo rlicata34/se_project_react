@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    visibility: hidden;
 }
 
 .modal__content {
@@ -96,7 +97,7 @@
 
 .modal__radio-input:checked {
     accent-color: #000;
-}
+} 
 
 .modal__submit-button {
     width: 124px;
