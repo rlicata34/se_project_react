@@ -3,7 +3,6 @@ import "../blocks/ModalWithForm.css";
 
 function ModalWithForm({ children, buttonText, title, activeModal, onClose, modalRef }) {
     if (activeModal !== "add-garmet") return null;
-    
     return ( 
         <div className={`modal ${activeModal === "add-garmet" && "modal_opened"}`}>
             <div className="modal__content" ref={modalRef} >

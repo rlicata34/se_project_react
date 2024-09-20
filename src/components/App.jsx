@@ -61,6 +61,11 @@ useEffect(() => {
     document.addEventListener("keydown", handleEscapeKey);
   }
 
+  if (activeModal === "preview") {
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleEscapeKey);
+  }
+
   return () => {
     document.removeEventListener("mousedown", handleOutsideClick);
     document.removeEventListener("keydown", handleEscapeKey);
@@ -71,8 +76,15 @@ useEffect(() => {
   return (
     <div className="page">
       <div className="page__content">
-        <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-        <Main weatherData={weatherData} handleCardClick={handleCardClick} />
+        <Header 
+          handleAddClick={handleAddClick} 
+          weatherData={weatherData} 
+        />
+        <Main 
+          weatherData={weatherData} 
+          handleCardClick={handleCardClick} 
+          modalRef={modalRef}
+        />
         <Footer />
       </div>
       <ModalWithForm 
@@ -139,7 +151,8 @@ useEffect(() => {
       <ItemModal 
         activeModal={activeModal} 
         card={selectedCard} 
-        onClose={closeActiveModal} />
+        onClose={closeActiveModal} 
+        modalRef={modalRef}/>
     </div>
   )
 }
