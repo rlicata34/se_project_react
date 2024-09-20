@@ -56,12 +56,7 @@ useEffect(() => {
     }
   }
 
-  if (activeModal === "add-garmet") {
-    document.addEventListener("mousedown", handleOutsideClick);
-    document.addEventListener("keydown", handleEscapeKey);
-  }
-
-  if (activeModal === "preview") {
+  if (activeModal) {
     document.addEventListener("mousedown", handleOutsideClick);
     document.addEventListener("keydown", handleEscapeKey);
   }
@@ -90,7 +85,7 @@ useEffect(() => {
       <ModalWithForm 
         title="New garmet" 
         buttonText="Add garmet" 
-        activeModal={activeModal} 
+        isOpen={activeModal === "add-garmet"} 
         onClose={closeActiveModal}
         modalRef={modalRef}
       >
