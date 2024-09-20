@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Header from './Header'
 import Main from './Main'
 import ModalWithForm from './ModalWithForm';
@@ -18,6 +18,7 @@ const [weatherData, setWeatherData] = useState({
 });
 const [activeModal, setActiveModal] = useState("");
 const [selectedCard, setSelectedCard] = useState({})
+const modalRef = useRef(null);
 
 const handleCardClick = (card) => {
   setActiveModal("preview");
@@ -41,6 +42,32 @@ useEffect(() => {
   .catch(console.error);
 }, []);
 
+
+useEffect(() => {
+  function handleOutsideClick(event) {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeActiveModal();
+    }
+  }
+
+  function handleEscapeKey(event) {
+    if (event.key === "Escape") {
+      closeActiveModal();
+    }
+  }
+
+  if (activeModal === "add-garmet") {
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleEscapeKey);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleOutsideClick);
+    document.removeEventListener("keydown", handleEscapeKey);
+  };
+}, [activeModal]);
+
+
   return (
     <div className="page">
       <div className="page__content">
@@ -53,6 +80,7 @@ useEffect(() => {
         buttonText="Add garmet" 
         activeModal={activeModal} 
         onClose={closeActiveModal}
+        modalRef={modalRef}
       >
         <label htmlFor="name" className="modal__label">
           Name{" "}
