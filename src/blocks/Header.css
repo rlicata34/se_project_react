@@ -19,8 +19,17 @@
     font-family: "Cabinet Grotesk", sans-serif;
 }
 
+
+.header__container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+}
+
+
 .header__add-clothes-button{
-    margin: 0 20px 0 auto;
+    margin: 0 20px 0 20px;
     border: none;
     font-size: 20px;
     line-height: 1.2;
@@ -28,12 +37,6 @@
     font-family: "Cabinet Grotesk", sans-serif;
     padding: 0;
     cursor: pointer;
-}
-
-.header__user-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }
 
 .header__username {

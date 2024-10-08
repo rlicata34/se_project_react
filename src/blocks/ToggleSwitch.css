@@ -1,0 +1,64 @@
+.switch {
+    display: flex;
+    position: relative;
+    align-items: center;
+    font-size: 14px;
+    line-height: 0.8;
+    font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.switch__box {
+    border-radius: 25px;
+    border: 2px solid #7e7e7e;
+    width: 56px;
+    height: 28px;
+    /*outline: none;*/
+    appearance: none;
+
+}
+
+
+.switch__slider {
+    border-radius: 20px;
+    width: 28px;
+    height: 28px;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+}
+
+.switch__slider-C {
+    right: -2px;
+}
+
+.switch__slider-C:hover {
+    right: 0;
+}
+
+.switch__slider-F {
+    left: -2px;
+}
+
+.switch__slider-F:hover {
+    left: 0 ;
+}
+
+.switch__temp-F {
+    color:#7e7e7e;
+    position: absolute;
+    margin: 0;
+    left: 9px;
+}
+
+.switch__temp-C {
+    color: #7e7e7e;
+    position: absolute;
+    right: 9px;
+    margin: 0;
+}
+
+.switch__active {
+    color: #fff;
+}
