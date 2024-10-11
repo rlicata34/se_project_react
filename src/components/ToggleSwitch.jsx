@@ -4,15 +4,7 @@ import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUni
 
 function ToggleSwitch() {
 
-    // const [currentTemperatureUnit, handleToggleSwitchChange] = useState("F")
-
-    // const handleChange = () => {
-    //     if (currentTemperatureUnit === "F") handleToggleSwitchChange("C")
-    //     if (currentTemperatureUnit === "C") handleToggleSwitchChange("F")
-    // }
-
     const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext)
-
 
     return ( 
         <label htmlFor="" className="switch">
