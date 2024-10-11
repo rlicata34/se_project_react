@@ -3,16 +3,16 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, }) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal}) {
 
     const [name, setName] = useState("");
-    const [link, setUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [weather, setWeather] = useState("")
     
     useEffect(() => {
         if(isOpen) {
             setName("");
-            setUrl("");
+            setImageUrl("");
             setWeather("");
         }
     }, [isOpen])
@@ -25,7 +25,7 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, }) {
     
     const handleUrlChange = (evt) => {
         console.log(evt.target.value);
-        setUrl(evt.target.value);
+        setImageUrl(evt.target.value);
     }
 
     const handleWeatherChange = (evt) => {
@@ -36,7 +36,7 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, }) {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        onAddItem({ name, link, weather });
+        onAddItem({ name, imageUrl, weather });
         closeActiveModal();
     }
 
@@ -48,6 +48,7 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, }) {
           onClose={closeActiveModal}
           modalRef={modalRef}
           onSubmit={handleSubmit}
+          activeModal={activeModal}
         >
           <label className="modal__label">
             Name{" "}
@@ -70,7 +71,7 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, }) {
               className="modal__input" 
               placeholder="Image URL" 
               required
-              value={link}
+              value={imageUrl}
               onChange={handleUrlChange}
             />
           </label>

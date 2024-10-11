@@ -3,12 +3,13 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
+import AddItemModal from './AddItemModal';
 import ItemModal from "./ItemModal";
 import Profile from './Profile';
-import AddItemModal from './AddItemModal';
 import { APIkey, coordinates } from "../utils/constants";
 import { getWeather, filterWeatherData } from '../utils/weatherApi';
 import { CurrentTemperatureUnitContext } from '../contexts/CurrentTemperatureUnitContext';
+import { getItems, addNewItem, deleteItem } from '../utils/api';
 
 import '../blocks/App.css'
 
@@ -23,6 +24,7 @@ const [activeModal, setActiveModal] = useState("");
 const [selectedCard, setSelectedCard] = useState({});
 const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState('F');
 const modalRef = useRef(null);
+const [clothingItems, setClothingItems] = useState([]);
 
 const handleCardClick = (card) => {
   setActiveModal("preview");
@@ -42,8 +44,14 @@ const handleToggleSwitchChange = () => {
   if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F")
 }
 
-const onAddItem = (values) => {
-  console.log(values);
+const onAddItem = (item) => {
+  addNewItem(item.name, item.imageUrl, item.weather)
+    .then((newItem) => {
+      setClothingItems((prevItems) => [...prevItems, newItem]);
+    })
+    .catch((err) => {
+      console.error("Error addint item:", err);
+    });
 }
 
 useEffect(() => {
@@ -53,6 +61,14 @@ useEffect(() => {
     setWeatherData(filteredData);
   })
   .catch(console.error);
+}, []);
+
+useEffect(() => {
+  getItems()
+    .then((data) => {
+      setClothingItems(data);
+    })
+    .catch(console.error);
 }, []);
 
 
@@ -97,9 +113,10 @@ useEffect(() => {
                 weatherData={weatherData} 
                 handleCardClick={handleCardClick} 
                 modalRef={modalRef}
+                clothingItems={clothingItems}
               />} 
               />
-            <Route path="/Profile" element={<Profile handleCardClick={handleCardClick} />} />
+            <Route path="/Profile" element={<Profile handleCardClick={handleCardClick} clothingItems={clothingItems} />} />
           </Routes>
           <Footer />
         </div>
@@ -108,6 +125,7 @@ useEffect(() => {
           onAddItem={onAddItem} 
           isOpen={activeModal === "add-garmet"} 
           modalRef={modalRef}
+          activeModal={activeModal}
         />
         <ItemModal 
           activeModal={activeModal} 

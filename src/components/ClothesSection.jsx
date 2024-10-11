@@ -1,8 +1,8 @@
-import { defaultClothingItems } from "../utils/constants";
+
 import ItemCard from "./ItemCard";
 import "../blocks/ClothesSection.css";
 
-function ClothesSection({handleCardClick}) {
+function ClothesSection({handleCardClick, clothingItems}) {
     return ( 
         <div className="clothes-section" >
             <div className="clothes-section__text-container" >
@@ -10,12 +10,11 @@ function ClothesSection({handleCardClick}) {
                 <button className="clothes-section__button" >+ Add New</button>
             </div>
             <ul className="clothes-section__list">
-                {defaultClothingItems.map((item) => {
+                {clothingItems.map((item) => {
                     return (
                         <ItemCard 
                             key={item._id} 
                             item={item} 
-                            // ToDo - Pass as prop
                             onCardClick={handleCardClick}
                         />
                     );

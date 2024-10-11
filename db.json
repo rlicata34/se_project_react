@@ -101,6 +101,12 @@
       "name": "T-Shirt",
       "weather": "hot",
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
+    },
+    {
+      "name": "Fanny pack",
+      "imageUrl": "https://images.unsplash.com/photo-1666731843045-0c90f79c308c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZmFubnklMjBwYWNrfGVufDB8fDB8fHww",
+      "weather": "hot",
+      "_id": 17
     }
   ]
 }
