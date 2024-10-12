@@ -36,4 +36,4 @@ function deleteItem(itemId) {
 }
 
 
-export { getItems, addNewItem, deleteItem };
+export { getItems, addNewItem, deleteItem, checkResponse };

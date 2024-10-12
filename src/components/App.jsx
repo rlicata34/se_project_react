@@ -26,7 +26,8 @@ const [selectedCard, setSelectedCard] = useState({});
 const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState('F');
 const modalRef = useRef(null);
 const [clothingItems, setClothingItems] = useState([]);
-const [saveToDelete, setSaveToDelete] = useState({})
+const [saveToDelete, setSaveToDelete] = useState({});
+const [isLoading, setIsLoading] = useState(false);
 
 const handleCardClick = (card) => {
   setActiveModal("preview");
@@ -66,10 +67,15 @@ const handleToggleSwitchChange = () => {
 const onAddItem = (item) => {
   addNewItem(item.name, item.imageUrl, item.weather)
     .then((newItem) => {
-      setClothingItems((prevItems) => [...prevItems, newItem]);
+      setIsLoading(true);
+      setClothingItems((prevItems) => [newItem, ...prevItems]);
+      closeActiveModal();
     })
     .catch((err) => {
       console.error("Error addint item:", err);
+    })
+    .finally(()=> {
+      setIsLoading(false);
     });
 }
 
@@ -92,14 +98,14 @@ useEffect(() => {
 
 
 useEffect(() => {
-  function handleOutsideClick(event) {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+  function handleOutsideClick(evt) {
+    if (modalRef.current && !modalRef.current.contains(evt.target)) {
       closeActiveModal();
     }
   }
 
-  function handleEscapeKey(event) {
-    if (event.key === "Escape") {
+  function handleEscapeKey(evt) {
+    if (evt.key === "Escape") {
       closeActiveModal();
     }
   }
@@ -154,6 +160,7 @@ useEffect(() => {
           isOpen={activeModal === "add-garmet"} 
           modalRef={modalRef}
           activeModal={activeModal}
+          isLoading={isLoading}
         />
         <ItemModal 
           activeModal={activeModal} 

@@ -1,9 +1,8 @@
 
 import "../blocks/ModalWithForm.css";
 
-function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef, onSubmit, activeModal }) {
+function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef, onSubmit }) {
     
-    if (activeModal !== "add-garmet") return null;
 
     return ( 
         <div className={`modal ${isOpen ? "modal_opened" : ""}`}>

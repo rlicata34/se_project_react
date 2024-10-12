@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal}) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading}) {
 
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -34,18 +34,16 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
     const handleSubmit = (evt) => {
         evt.preventDefault();
         onAddItem({ name, imageUrl, weather });
-        closeActiveModal();
     }
 
     return ( 
         <ModalWithForm 
           title="New garmet" 
-          buttonText="Add garmet" 
+          buttonText={isLoading? "Saving..." : "Save"}
           isOpen={isOpen} 
           onClose={closeActiveModal}
           modalRef={modalRef}
           onSubmit={handleSubmit}
-          activeModal={activeModal}
         >
           <label className="modal__label">
             Name{" "}
