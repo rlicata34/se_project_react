@@ -40,7 +40,6 @@ const handleAddClick = () => {
 const handleOpenConfirmationModal = (itemId) => {
   setActiveModal("confirm");
   setSaveToDelete(itemId)
-  console.log(itemId)
 }
 
 const handleCardDelete = ()=> {
@@ -135,8 +134,17 @@ useEffect(() => {
                 modalRef={modalRef}
                 clothingItems={clothingItems}
               />} 
-              />
-            <Route path="/Profile" element={<Profile handleCardClick={handleCardClick} clothingItems={clothingItems} />} />
+            />
+            <Route 
+              path="/Profile" 
+              element={
+                <Profile 
+                  handleCardClick={handleCardClick} 
+                  clothingItems={clothingItems} 
+                  handleAddClick={handleAddClick} 
+                />
+              } 
+            />
           </Routes>
           <Footer />
         </div>

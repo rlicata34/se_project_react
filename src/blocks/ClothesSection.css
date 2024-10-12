@@ -1,4 +1,4 @@
-.clothes-section {}
+
 
 .clothes-section__text-container {
     display: flex;
@@ -22,6 +22,7 @@
     border: none;
     opacity: 60%;
     padding: 0;
+    cursor: pointer;
 }
 
 .clothes-section__list {

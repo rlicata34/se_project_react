@@ -18,18 +18,15 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
     }, [isOpen])
     
     const handleNameChange = (evt) => {
-        console.log(evt.target.value);
         setName(evt.target.value);
     }
 
     
     const handleUrlChange = (evt) => {
-        console.log(evt.target.value);
         setImageUrl(evt.target.value);
     }
 
     const handleWeatherChange = (evt) => {
-        console.log(evt.target.value);
         setWeather(evt.target.value)
     }
 
