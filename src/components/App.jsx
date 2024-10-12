@@ -4,12 +4,13 @@ import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
 import AddItemModal from './AddItemModal';
+import ConfirmationModal from './ConfirmationModal';
 import ItemModal from "./ItemModal";
 import Profile from './Profile';
 import { APIkey, coordinates } from "../utils/constants";
 import { getWeather, filterWeatherData } from '../utils/weatherApi';
 import { CurrentTemperatureUnitContext } from '../contexts/CurrentTemperatureUnitContext';
-import { getItems, addNewItem, deleteItem } from '../utils/api';
+import { getItems, addNewItem, /*deleteItem*/ } from '../utils/api';
 
 import '../blocks/App.css'
 
@@ -34,6 +35,10 @@ const handleCardClick = (card) => {
 const handleAddClick = () => {
   setActiveModal("add-garmet")
 };
+
+const handleOpenConfirmationModal = () => {
+  setActiveModal("confirm");
+}
 
 const closeActiveModal = () => {
   setActiveModal("");
@@ -131,7 +136,14 @@ useEffect(() => {
           activeModal={activeModal} 
           card={selectedCard} 
           onClose={closeActiveModal} 
-          modalRef={modalRef}/>
+          modalRef={modalRef}
+          handleOpenConfirmationModal={handleOpenConfirmationModal}
+        />
+        <ConfirmationModal 
+          activeModal={activeModal}
+          modalRef={modalRef}
+          onClose={closeActiveModal}
+        />
       </CurrentTemperatureUnitContext.Provider>
     </div>
   )

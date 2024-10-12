@@ -10,11 +10,14 @@
 }
 
 .modal__footer {
-    margin-left: 32px;
+    margin: 20px 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .modal__caption {
-    margin: 20px 0 0;
+    margin: 0;
     font-size: 20px;
     line-height: 1.2;
 }
@@ -23,5 +26,17 @@
     font-size: 20px;
     line-height: 1.2;
     margin: 12px 0 0;
+}
+
+.modal__delete-button {
+    border: none;
+    background-color: #fff;
+    color: #ff4d00;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    font-family: "Cabinet Grotesk", sans-serif;
+    padding: 0;
 }
 
