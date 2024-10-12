@@ -13,7 +13,7 @@ function ItemModal({ activeModal, onClose, card, modalRef, handleOpenConfirmatio
                         <h2 className="modal__caption">{card.name}</h2>
                         <p className="modal__weather-type">Weather: {card.weather}</p>
                     </div>
-                    <button className="modal__delete-button" onClick={handleOpenConfirmationModal} >Delete item</button>
+                    <button className="modal__delete-button" onClick={() => handleOpenConfirmationModal(card._id)} >Delete item</button>
                 </div>
             </div>
         </div>

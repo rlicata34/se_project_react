@@ -10,7 +10,7 @@ import Profile from './Profile';
 import { APIkey, coordinates } from "../utils/constants";
 import { getWeather, filterWeatherData } from '../utils/weatherApi';
 import { CurrentTemperatureUnitContext } from '../contexts/CurrentTemperatureUnitContext';
-import { getItems, addNewItem, /*deleteItem*/ } from '../utils/api';
+import { getItems, addNewItem, deleteItem } from '../utils/api';
 
 import '../blocks/App.css'
 
@@ -26,6 +26,7 @@ const [selectedCard, setSelectedCard] = useState({});
 const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState('F');
 const modalRef = useRef(null);
 const [clothingItems, setClothingItems] = useState([]);
+const [saveToDelete, setSaveToDelete] = useState({})
 
 const handleCardClick = (card) => {
   setActiveModal("preview");
@@ -36,8 +37,22 @@ const handleAddClick = () => {
   setActiveModal("add-garmet")
 };
 
-const handleOpenConfirmationModal = () => {
+const handleOpenConfirmationModal = (itemId) => {
   setActiveModal("confirm");
+  setSaveToDelete(itemId)
+  console.log(itemId)
+}
+
+const handleCardDelete = ()=> {
+  deleteItem(saveToDelete)
+    .then(() => {
+      setClothingItems((prevItems) => prevItems.filter(item => item._id !== saveToDelete));
+      closeActiveModal();
+      setSaveToDelete({});
+    })
+    .catch((err) => {
+      console.error("Error deleting item", err);
+    });
 }
 
 const closeActiveModal = () => {
@@ -143,6 +158,7 @@ useEffect(() => {
           activeModal={activeModal}
           modalRef={modalRef}
           onClose={closeActiveModal}
+          handleCardDelete={handleCardDelete}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>

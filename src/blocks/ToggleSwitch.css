@@ -50,6 +50,7 @@
     position: absolute;
     margin: 0;
     left: 9px;
+    cursor: pointer;
 }
 
 .switch__temp-C {
@@ -57,6 +58,7 @@
     position: absolute;
     right: 9px;
     margin: 0;
+    cursor: pointer;
 }
 
 .switch__active {

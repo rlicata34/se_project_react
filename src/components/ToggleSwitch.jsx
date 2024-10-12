@@ -7,11 +7,13 @@ function ToggleSwitch() {
     const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext)
 
     return ( 
-        <label htmlFor="" className="switch">
+        <label className="switch" aria-label="Temperature unit toggle" >
             <input 
                 type="checkbox" 
                 className="switch__box" 
                 onChange={handleToggleSwitchChange}
+                checked={currentTemperatureUnit === "C"}
+                aria-checked={currentTemperatureUnit === "C"}
             />
             <span 
                 className={
