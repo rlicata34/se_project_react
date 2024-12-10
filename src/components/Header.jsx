@@ -1,11 +1,23 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../blocks/Header.css"
 import logo from "../assets/logo.svg"
-import avatar from "../assets/avatar.png"
 import ToggleSwitch from "./ToggleSwitch";
 
-function Header({ handleAddClick, weatherData }) {
+function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherData }) {
     const currentDate = new Date().toLocaleString('default', { month: 'long', day: 'numeric' });
+    const { currentUser } = useContext(CurrentUserContext);
+    const isLoggedIn = !!currentUser?.email; // Check if email exists
+
+    const generatePlaceholder = (name) => {
+        const firstLetter = name?.charAt(0).toUpperCase() || "?";
+        return (
+            <div className="header__avatar-placeholder">
+                {firstLetter}
+            </div>
+        );
+    };
 
     return ( 
         <header className="header">
@@ -15,11 +27,50 @@ function Header({ handleAddClick, weatherData }) {
             <p className="header__date-and-location">{currentDate}, {weatherData.city}</p>
             <div className="header__container">
                 <ToggleSwitch />
-                <button type="button" className="header__add-clothes-button" onClick={handleAddClick}>+ Add clothes</button>
-                <Link to="/profile" className="header__link" >
-                    <p className="header__username">Terrence Tegegne</p>
-                    <img src={avatar} alt="Terrence Tegegne" className="header__avatar" />
-                </Link>
+                {isLoggedIn ? (
+                    <>
+                        <button
+                        type="button"
+                        className="header__add-clothes-button"
+                        onClick={handleAddClick}
+                        >
+                        + Add clothes
+                        </button>
+                        <Link to="/profile" className="header__link">
+                        <p className="header__username">{currentUser.name}</p>
+                        {currentUser.avatar ? (
+                            <img
+                            src={currentUser.avatar}
+                            alt={currentUser.name}
+                            className="header__avatar"
+                            />
+                        ) : (
+                            generatePlaceholder(currentUser.name)
+                        )}
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/signup" className="header__sign-up-link">
+                        <button
+                            type="button"
+                            className="header__sign-up-button"
+                            onClick={handleSignUpClick}
+                        >
+                            Sign Up
+                        </button>
+                        </Link>
+                        <Link to="/signin" className="header__sign-in-link">
+                        <button
+                            type="button"
+                            className="header__sign-in-button"
+                            onClick={handleSignInClick}
+                        >
+                            Sign In
+                        </button>
+                        </Link>
+                    </>
+                )}
             </div>
         </header>
      );

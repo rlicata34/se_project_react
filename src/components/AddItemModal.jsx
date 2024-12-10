@@ -7,7 +7,7 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
 
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
-    const [weather, setWeather] = useState("")
+    const [weather, setWeather] = useState("");
     
     useEffect(() => {
         if(isOpen) {
