@@ -40,3 +40,7 @@
     padding: 0;
 }
 
+.modal__delete-button_hidden {
+    visibility: hidden;
+}
+
