@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading}) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading, validateForm, isFormValid}) {
 
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -16,6 +16,11 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
             setWeather("");
         }
     }, [isOpen])
+
+    useEffect(() => {
+        // Validate the form whenever fields change
+        validateForm({ name, imageUrl, weather });
+    }, [name, imageUrl, weather, validateForm]);
     
     const handleNameChange = (evt) => {
         setName(evt.target.value);
@@ -39,11 +44,12 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
     return ( 
         <ModalWithForm 
           title="New garmet" 
-          buttonText={isLoading? "Saving..." : "Save"}
+          buttonText={isLoading? "Saving..." : "Add garment"}
           isOpen={isOpen} 
           onClose={closeActiveModal}
           modalRef={modalRef}
           onSubmit={handleSubmit}
+          buttonClass={`modal__submit-button ${isFormValid ? "modal__submit-button_active" : ""}`}
         >
           <label className="modal__label">
             Name{" "}

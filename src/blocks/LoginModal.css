@@ -1,0 +1,16 @@
+
+
+.login-modal__button {
+    cursor: pointer;
+    position: absolute;
+    bottom: 44px;
+    left: 113px;
+    padding: 0;
+    border: none;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    font-family: "Cabinet Grotesk", sans-serif;
+    opacity: 50%;
+}

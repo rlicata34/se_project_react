@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import "../blocks/LoginModal.css";
 
-function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeModal, isLoading} ) {
+function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeModal, isLoading, validateForm, isFormValid} ) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const { updateCurrentUser } = useContext(CurrentUserContext); // Access context function to update user
@@ -13,6 +14,11 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
             setPassword("");
         }
     }, [isOpen])
+
+    useEffect(() => {
+        // Validate the form whenever fields change
+        validateForm({ password, email });
+    }, [password, email, validateForm]);
     
 
     const handlePasswordChange = (evt) => {
@@ -43,6 +49,7 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
+            buttonClass={`modal__submit-button_login ${isFormValid ? "modal__submit-button_active" : ""}`}
         >
             <label className="modal__label">
                 Email*{" "}
@@ -67,6 +74,7 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
                     onChange={handlePasswordChange}
                 />
             </label>
+            <button type="button" className="login-modal__button" >or Sign Up</button>
             
         </ModalWithForm>
     );

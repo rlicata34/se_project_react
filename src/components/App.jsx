@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import validator from "validator";
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
@@ -36,6 +37,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({ username: "", email: "", avatar: "" });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const updateCurrentUser = (user) => setCurrentUser(user);
   const clearCurrentUser = () => setCurrentUser({ username: "", email: "", avatar: "" });
@@ -82,6 +84,26 @@ function App() {
     if (currentTemperatureUnit === "F") setCurrentTemperatureUnit("C")
     if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F")
   }
+
+  // Generic form validation function using `validator` library
+  const validateForm = (fields) => {
+    const validations = {
+      email: (value) => validator.isEmail(value), // Valid email
+      password: (value) => validator.isLength(value, { min: 3 }), // At least 6 characters
+      name: (value) => validator.isLength(value.trim(), { min: 1, max: 30 }),
+      avatar: (value) => validator.isURL(value), // Valid URL
+      imageUrl: (value) => validator.isURL(value), //Valid URL
+      weather: (value) => ["hot", "warm", "cold"].includes(value), // weather choice
+    };
+
+    // Validate all fields based on their corresponding validator method
+    const isValid = Object.entries(fields).every(([key, value]) =>
+      validations[key] ? validations[key](value) : true
+    );
+
+    setIsFormValid(isValid); // Update form validity state
+    return isValid;
+  };
 
   const onAddItem = (item) => {
     addNewItem(item.name, item.imageUrl, item.weather)
@@ -260,6 +282,8 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
+                    validateForm={validateForm} // Pass validation function
+                    isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -273,6 +297,8 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
+                    validateForm={validateForm} // Pass validation function
+                    isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -286,6 +312,8 @@ function App() {
             modalRef={modalRef}
             activeModal={activeModal}
             isLoading={isLoading}
+            validateForm={validateForm} // Pass validation function
+            isFormValid={isFormValid} // Pass form validity state
           />
           <ItemModal 
             activeModal={activeModal} 

@@ -52,22 +52,22 @@ function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherD
                 ) : (
                     <>
                         <Link to="/signup" className="header__sign-up-link">
-                        <button
-                            type="button"
-                            className="header__sign-up-button"
-                            onClick={handleSignUpClick}
-                        >
-                            Sign Up
-                        </button>
+                            <button
+                                type="button"
+                                className="header__sign-up-button"
+                                onClick={handleSignUpClick}
+                            >
+                                Sign Up
+                            </button>
                         </Link>
                         <Link to="/signin" className="header__sign-in-link">
-                        <button
-                            type="button"
-                            className="header__sign-in-button"
-                            onClick={handleSignInClick}
-                        >
-                            Sign In
-                        </button>
+                            <button
+                                type="button"
+                                className="header__sign-in-button"
+                                onClick={handleSignInClick}
+                            >
+                                Sign In
+                            </button>
                         </Link>
                     </>
                 )}

@@ -1,7 +1,7 @@
 
 import "../blocks/ModalWithForm.css";
 
-function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef, onSubmit }) {
+function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef, onSubmit, buttonClass }) {
     
 
     return ( 
@@ -11,7 +11,7 @@ function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef,
                 <button className="modal__close" type="button" onClick={onClose}></button>
                 <form className="modal__form" onSubmit={onSubmit} >
                     {children}
-                    <button type="submit" className="modal__submit-button">
+                    <button type="submit" className={buttonClass}>
                         {buttonText}
                     </button>
                 </form>

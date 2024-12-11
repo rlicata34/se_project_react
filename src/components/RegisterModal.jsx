@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
+import "../blocks/RegisterModal.css";
 
-function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef, activeModal, isLoading} ) {
+function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef, activeModal, isLoading, validateForm, isFormValid } ) {
     const [name, setName] = useState("");
     const [avatar, setAvatarUrl] = useState("");
     const [password, setPassword] = useState("");
@@ -15,6 +16,11 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
             setEmail("");
         }
     }, [isOpen])
+
+    useEffect(() => {
+        // Validate the form whenever fields change
+        validateForm({ name, avatar, password, email });
+    }, [name, avatar, password, email, validateForm]);
     
     const handleNameChange = (evt) => {
         setName(evt.target.value);
@@ -48,6 +54,7 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
+            buttonClass={`modal__submit-button_register ${isFormValid ? "modal__submit-button_active" : ""}`}
         >
             <label className="modal__label">
                 Email*{" "}
@@ -96,6 +103,7 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
                     onChange={handleUrlChange}
                 />
             </label>
+            <button type="button" className="register-modal__button" >or Log In</button>
             
         </ModalWithForm>
     );
