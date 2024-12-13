@@ -1,15 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import validator from "validator";
+// import validator from "validator";
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
+import EditProfileModal from './EditProfileModal';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 import AddItemModal from './AddItemModal';
 import ConfirmationModal from './ConfirmationModal';
 import ItemModal from "./ItemModal";
 import Profile from './Profile';
-import RegisterModal from './RegisterModal';
-import LoginModal from './LoginModal';
 import ProtectedRoute from "./ProtectedRoute";
 import { APIkey, coordinates } from "../utils/constants";
 import { getWeather, filterWeatherData } from '../utils/weatherApi';
@@ -36,11 +37,12 @@ function App() {
   const [saveToDelete, setSaveToDelete] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ username: "", email: "", avatar: "" });
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ name: "", email: "", avatar: "" });
+  // const [isFormValid, setIsFormValid] = useState(false);
+  // const [isActive, setIsActive] = useState(false);
 
   const updateCurrentUser = (user) => setCurrentUser(user);
-  const clearCurrentUser = () => setCurrentUser({ username: "", email: "", avatar: "" });
+  const clearCurrentUser = () => setCurrentUser({ name: "", email: "", avatar: "" });
   
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -48,20 +50,28 @@ function App() {
   }
 
   const handleAddClick = () => {
-    setActiveModal("add-garmet")
+    setActiveModal("add-garmet");
+    // setIsActive(true);
   };
 
   const handleOpenConfirmationModal = (itemId) => {
     setActiveModal("confirm");
-    setSaveToDelete(itemId)
+    // setSaveToDelete(itemId)
   }
 
   const handleSignUpClick = () => {
     setActiveModal("sign-up");
+    // setIsActive(true);
   };
 
   const handleSignInClick = () => {
     setActiveModal("sign-in");
+    // setIsActive(true);
+  };
+
+  const handleEditProfileClick = () => {
+    setActiveModal("edit-profile");
+    // setIsActive(true);
   };
 
   const handleCardDelete = ()=> {
@@ -85,25 +95,28 @@ function App() {
     if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F")
   }
 
-  // Generic form validation function using `validator` library
-  const validateForm = (fields) => {
-    const validations = {
-      email: (value) => validator.isEmail(value), // Valid email
-      password: (value) => validator.isLength(value, { min: 3 }), // At least 6 characters
-      name: (value) => validator.isLength(value.trim(), { min: 1, max: 30 }),
-      avatar: (value) => validator.isURL(value), // Valid URL
-      imageUrl: (value) => validator.isURL(value), //Valid URL
-      weather: (value) => ["hot", "warm", "cold"].includes(value), // weather choice
-    };
+  // Generic validation function
+  // const validateForm = (fields, rules, isActive) => {
+  //   if (!isActive) {
+  //     return setIsFormValid(false);
+  //   }
 
-    // Validate all fields based on their corresponding validator method
-    const isValid = Object.entries(fields).every(([key, value]) =>
-      validations[key] ? validations[key](value) : true
-    );
+  //   const isValid = Object.entries(fields).every(([key, value]) =>
+  //     rules[key] ? rules[key](value) : true
+  //   );
 
-    setIsFormValid(isValid); // Update form validity state
-    return isValid;
-  };
+  //   console.log("Validation Results:", fields, isValid); // Debugging log
+  //   return setIsFormValid(isValid);
+  // };
+
+  // const validationRules = {
+  //   email: (value) => validator.isEmail(value), // Valid email
+  //   password: (value) => validator.isLength(value, { min: 3 }), // Min 3 characters
+  //   name: (value) => !validator.isEmpty(value.trim()), // Non-empty name
+  //   avatar: (value) => validator.isURL(value), // Valid URL
+  //   imageUrl: (value) => validator.isURL(value), // Valid URL for AddItemModal
+  //   weather: (value) => ["hot", "warm", "cold"].includes(value), // Valid weather types
+  // };
 
   const onAddItem = (item) => {
     addNewItem(item.name, item.imageUrl, item.weather)
@@ -267,7 +280,8 @@ function App() {
                     <Profile 
                       handleCardClick={handleCardClick} 
                       clothingItems={clothingItems} 
-                      handleAddClick={handleAddClick} 
+                      handleAddClick={handleAddClick}
+                      handleEditProfileClick={handleEditProfileClick} 
                     />
                   </ProtectedRoute>
                 } 
@@ -282,8 +296,10 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
-                    validateForm={validateForm} // Pass validation function
-                    isFormValid={isFormValid} // Pass form validity state
+                    // isActive={isActive}
+                    // validationRules={validationRules}
+                    // validateForm={validateForm}
+                    // isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -297,8 +313,10 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
-                    validateForm={validateForm} // Pass validation function
-                    isFormValid={isFormValid} // Pass form validity state
+                    // isActive={isActive}
+                    // validationRules={validationRules}
+                    // validateForm={validateForm} 
+                    // isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -312,8 +330,10 @@ function App() {
             modalRef={modalRef}
             activeModal={activeModal}
             isLoading={isLoading}
-            validateForm={validateForm} // Pass validation function
-            isFormValid={isFormValid} // Pass form validity state
+            // isActive={isActive}
+            // validationRules={validationRules}
+            // validateForm={validateForm}
+            // isFormValid={isFormValid} // Pass form validity state
           />
           <ItemModal 
             activeModal={activeModal} 
@@ -327,6 +347,14 @@ function App() {
             modalRef={modalRef}
             onClose={closeActiveModal}
             handleCardDelete={handleCardDelete}
+          />
+          <EditProfileModal
+            closeActiveModal={closeActiveModal} 
+            onAddItem={onAddItem} 
+            isOpen={activeModal === "edit-profile"} 
+            modalRef={modalRef}
+            activeModal={activeModal}
+            isLoading={isLoading}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

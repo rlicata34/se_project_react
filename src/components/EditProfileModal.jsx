@@ -1,19 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
-import "../blocks/RegisterModal.css";
 
-function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef, activeModal, isActive, isLoading,validationRules, validateForm, isFormValid } ) {
+
+function EditProfileModal({ closeActiveModal, handleRegistration, isOpen, modalRef, isActive, isLoading, validationRules, validateForm, isFormValid } ) {
     const [name, setName] = useState("");
     const [avatar, setAvatarUrl] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
 
     useEffect(() => {
         if(isOpen) {
             setName("");
             setAvatarUrl("");
-            setPassword("");
-            setEmail("");
         }
     }, [isOpen])
 
@@ -33,54 +29,23 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
         setAvatarUrl(evt.target.value);
     }
 
-    const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value)
-    }
-
-    const handleEmailChange = (evt) => {
-        setEmail(evt.target.value)
-    }
-
-
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleRegistration({ name, avatar, password, email });
+        handleRegistration({ name, avatar });
     }
 
     
     return (  
         <ModalWithForm
-            title="Sign Up" 
-            buttonText={isLoading ? "Signing Up..." : "Sign Up"}
+            title="Change profile data" 
+            buttonText={isLoading ? "Saving changes..." : "Save changes"}
             isOpen={isOpen} 
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
-            buttonClass={`modal__submit-button-register ${isFormValid ? "modal__submit-button_active" : ""}`}
+            buttonClass={`modal__submit-button-edit-profile ${isFormValid ? "modal__submit-button_active" : ""}`}
         >
-            <label className="modal__label">
-                Email*{" "}
-                <input 
-                    type="email" 
-                    className="modal__input" 
-                    name="email"
-                    placeholder="Email" 
-                    required
-                    value={email}
-                    onChange={handleEmailChange}
-                />
-            </label>
-            <label className="modal__label">
-                Password*{" "}
-                <input 
-                    type="password" 
-                    className="modal__input" 
-                    placeholder="Password" 
-                    required
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-            </label>
+
             <label className="modal__label">
                 Name*{" "}
                 <input 
@@ -105,10 +70,9 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
                     onChange={handleUrlChange}
                 />
             </label>
-            <button type="button" className="register-modal__button" >or Log In</button>
             
         </ModalWithForm>
     );
 }
 
-export default RegisterModal;
+export default EditProfileModal;

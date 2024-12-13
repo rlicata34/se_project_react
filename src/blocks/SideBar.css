@@ -1,5 +1,10 @@
 .sidebar {
     display: flex;
+    flex-direction: column;
+}
+
+.sidebar__header {
+    display: flex;
     align-items: center;
 }
 
@@ -15,4 +20,16 @@
     line-height: 1.24;
     margin: 0 0 0 16px;
     white-space: nowrap;
+}
+
+.sidebar__button-edit {
+    border: none;
+    cursor: pointer;
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.24;
+    padding: 0;
+    margin: 24px 0 0;
+    width: 171px;
 }

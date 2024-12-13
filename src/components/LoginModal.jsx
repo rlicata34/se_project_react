@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+// import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../blocks/LoginModal.css";
 
-function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeModal, isLoading, validateForm, isFormValid} ) {
+function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeModal, isLoading, isActive, validationRules, validateForm, isFormValid} ) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const { updateCurrentUser } = useContext(CurrentUserContext); // Access context function to update user
+    // const { updateCurrentUser } = useContext(CurrentUserContext); // Access context function to update user
 
     useEffect(() => {
         if(isOpen) {
@@ -15,10 +15,10 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
         }
     }, [isOpen])
 
-    useEffect(() => {
-        // Validate the form whenever fields change
-        validateForm({ password, email });
-    }, [password, email, validateForm]);
+    // useEffect(() => {
+    //     // Validate the form whenever fields change
+    //     validateForm({ password, email }, validationRules, isActive);
+    // }, [password, email, validateForm, validationRules, isActive]);
     
 
     const handlePasswordChange = (evt) => {
@@ -30,15 +30,10 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
     }
 
 
-    const handleSubmit = (evt, user) => {
+    const handleSubmit = (evt) => {
         evt.preventDefault();
-        if (user) {
-            handleLogin({ email, password });
-            updateCurrentUser(user); 
-        }
-        return console.error
-
-    }
+        handleLogin({ email, password });
+    };  
 
     
     return (  
@@ -49,7 +44,7 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
-            buttonClass={`modal__submit-button_login ${isFormValid ? "modal__submit-button_active" : ""}`}
+            buttonClass={`modal__submit-button-login ${isFormValid ? "modal__submit-button_active" : ""}`}
         >
             <label className="modal__label">
                 Email*{" "}
