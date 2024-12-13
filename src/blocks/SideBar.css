@@ -33,3 +33,15 @@
     margin: 24px 0 0;
     width: 171px;
 }
+
+.sidebar__button-logout {
+    border: none;
+    cursor: pointer;
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.24;
+    padding: 0;
+    width: 65px;
+    margin: 8px 0 0;
+}

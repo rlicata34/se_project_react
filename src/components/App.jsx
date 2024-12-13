@@ -17,7 +17,7 @@ import { getWeather, filterWeatherData } from '../utils/weatherApi';
 import { CurrentTemperatureUnitContext } from '../contexts/CurrentTemperatureUnitContext';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { getItems, addNewItem, deleteItem } from '../utils/api';
-import { setToken, getToken } from "../utils/token";
+import { setToken, getToken, removeToken } from "../utils/token";
 import * as auth from "../utils/auth";
 
 import '../blocks/App.css'
@@ -250,6 +250,11 @@ function App() {
       });
     };
 
+  const handleLogout = (data) => {
+    removeToken(data.token);
+    setIsLoggedIn(false);
+  }
+
 
   return (
     <div className="page">
@@ -281,7 +286,8 @@ function App() {
                       handleCardClick={handleCardClick} 
                       clothingItems={clothingItems} 
                       handleAddClick={handleAddClick}
-                      handleEditProfileClick={handleEditProfileClick} 
+                      handleEditProfileClick={handleEditProfileClick}
+                      handleLogout={handleLogout} 
                     />
                   </ProtectedRoute>
                 } 

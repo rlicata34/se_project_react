@@ -1,7 +1,7 @@
 import avatar from "../assets/avatar.png";
 import "../blocks/SideBar.css";
 
-function Sidebar({ handleEditProfileClick }) {
+function Sidebar({ handleEditProfileClick,handleLogout }) {
     return ( 
         <div className="sidebar">
             <div className="sidebar__header">
@@ -14,6 +14,13 @@ function Sidebar({ handleEditProfileClick }) {
                 onClick={handleEditProfileClick} 
             >
                 Change profile data
+            </button>
+            <button 
+                type="submit" 
+                className="sidebar__button-logout" 
+                onClick={handleLogout} 
+            >
+                Log out
             </button>
         </div>
     );
