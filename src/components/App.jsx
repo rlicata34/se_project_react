@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 // import validator from "validator";
 import Header from './Header'
 import Main from './Main'
@@ -56,7 +56,7 @@ function App() {
 
   const handleOpenConfirmationModal = (itemId) => {
     setActiveModal("confirm");
-    // setSaveToDelete(itemId)
+    setSaveToDelete(itemId)
   }
 
   const handleSignUpClick = () => {
@@ -191,12 +191,14 @@ function App() {
         // data to state
         setIsLoggedIn(true);
         setCurrentUser({ name, email, avatar });
+        console.log(currentUser);
       })
       .catch((err) => {
         console.error("Error fetching user info:", err);
       });
   }, []);
 
+  const navigate = useNavigate();
 
   const handleRegistration = ({ name, avatar, email, password }) => {
     auth
@@ -234,25 +236,34 @@ function App() {
   auth
     .login(email, password)
       .then((data) => {
-        setIsLoading(true);
         if (data.token) {
-          setToken(data.token);
-          setCurrentUser(data.user);  // save user's data to state
-          setIsLoggedIn(true); // log the user in
-          closeActiveModal();    
+          setToken(data.token); // Save the token
+          setIsLoading(true);
+          return auth.getUserInfo(data.token); // Fetch user info after login
         } else {
-          console.error("No token in login response:", data);
-        } 
+          throw new Error("No token in login response.");
+        }
       })
-      .catch(console.error)
+      .then(({name, email, avatar}) => {
+        setCurrentUser({name, email, avatar});  // save user's data to state
+        setIsLoggedIn(true); // log the user in
+        console.log("Logged in successfully");
+        const redirectPath = location.state?.from?.pathname || "/";
+        navigate(redirectPath); 
+      })
+      .catch((err) => {
+        console.error("Login failed:", err);
+      })
       .finally(() => {
         setIsLoading(false); 
       });
     };
 
-  const handleLogout = (data) => {
-    removeToken(data.token);
+  const handleLogout = () => {
+    removeToken();
     setIsLoggedIn(false);
+    clearCurrentUser();
+    console.log("User logged out successfully");
   }
 
 
@@ -265,7 +276,8 @@ function App() {
               handleAddClick={handleAddClick} 
               handleSignUpClick={handleSignUpClick}
               handleSignInClick={handleSignInClick}
-              weatherData={weatherData} 
+              weatherData={weatherData}
+              isLoggedIn={isLoggedIn} 
             />
             <Routes>
               <Route 

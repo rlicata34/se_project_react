@@ -16,7 +16,6 @@ export const register = (name, avatar, password, email) => {
   return request(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, avatar, password, email }),
@@ -30,7 +29,6 @@ export const login = (email, password) => {
   return request(`${baseUrl}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
@@ -46,7 +44,6 @@ export const getUserInfo = (token) => {
   return request(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     }

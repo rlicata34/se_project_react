@@ -2,6 +2,12 @@ import avatar from "../assets/avatar.png";
 import "../blocks/SideBar.css";
 
 function Sidebar({ handleEditProfileClick,handleLogout }) {
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        handleLogout();
+    }
+
     return ( 
         <div className="sidebar">
             <div className="sidebar__header">
@@ -18,7 +24,7 @@ function Sidebar({ handleEditProfileClick,handleLogout }) {
             <button 
                 type="submit" 
                 className="sidebar__button-logout" 
-                onClick={handleLogout} 
+                onClick={handleSubmit} 
             >
                 Log out
             </button>

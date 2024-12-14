@@ -5,10 +5,9 @@ import "../blocks/Header.css"
 import logo from "../assets/logo.svg"
 import ToggleSwitch from "./ToggleSwitch";
 
-function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherData }) {
+function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherData, isLoggedIn }) {
     const currentDate = new Date().toLocaleString('default', { month: 'long', day: 'numeric' });
     const { currentUser } = useContext(CurrentUserContext);
-    const isLoggedIn = !!currentUser?.email; // Check if email exists
 
     const generatePlaceholder = (name) => {
         const firstLetter = name?.charAt(0).toUpperCase() || "?";
