@@ -53,9 +53,7 @@ export const getUserInfo = (token) => {
 
 export const updateUserInfo = (name, avatar) => {
   const token = getToken();
-  if (!token) {
-    return Promise.reject("No token provided");
-  }
+
   return request(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {

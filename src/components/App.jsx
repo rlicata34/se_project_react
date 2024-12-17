@@ -186,11 +186,11 @@ function App() {
     // Call the function, passing it the JWT.
     auth
       .getUserInfo(jwt)
-      .then(({ name, email, avatar }) => {
+      .then(({ name, email, avatar, _id }) => {
         // If the response is successful, log the user in, save their 
         // data to state
         setIsLoggedIn(true);
-        setCurrentUser({ name, email, avatar });
+        setCurrentUser({ name, email, avatar, _id });
       })
       .catch((err) => {
         console.error("Error fetching user info:", err);

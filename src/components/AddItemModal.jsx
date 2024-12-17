@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading, isActive, validationRules, validateForm, isFormValid}) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, isLoading, /*isActive, validationRules, validateForm,*/ isFormValid}) {
 
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
