@@ -1,3 +1,4 @@
+import { getToken } from "./token";
 
 const baseUrl = "http://localhost:3001"
 
@@ -49,3 +50,21 @@ export const getUserInfo = (token) => {
     }
   })
 };
+
+export const updateUserInfo = (name, avatar) => {
+  const token = getToken();
+  if (!token) {
+    return Promise.reject("No token provided");
+  }
+  return request(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({name, avatar}),
+  }).then((data) => {
+      console.log("Edit profile response:", data); // Debug log
+      return data; 
+    });
+}

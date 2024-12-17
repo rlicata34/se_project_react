@@ -1,17 +1,19 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 
-function EditProfileModal({ closeActiveModal, handleRegistration, isOpen, modalRef, isActive, isLoading, validationRules, validateForm, isFormValid } ) {
+function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modalRef, isLoading/*, validationRules, validateForm*/, isFormValid } ) {
     const [name, setName] = useState("");
     const [avatar, setAvatarUrl] = useState("");
+    const { currentUser } = useContext(CurrentUserContext);
 
     useEffect(() => {
         if(isOpen) {
-            setName("");
-            setAvatarUrl("");
+            setName(currentUser.name);
+            setAvatarUrl(currentUser.avatar);
         }
-    }, [isOpen])
+    }, [isOpen, currentUser]);
 
     // useEffect(() => {
     
@@ -31,7 +33,7 @@ function EditProfileModal({ closeActiveModal, handleRegistration, isOpen, modalR
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleRegistration({ name, avatar });
+        handleUpdateProfile({ name, avatar });
     }
 
     

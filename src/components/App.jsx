@@ -266,6 +266,29 @@ function App() {
     console.log("User logged out successfully");
   }
 
+  const handleUpdateProfile =({name, avatar}) => {
+    setIsLoading(true);
+    const token = getToken();
+    if (!token) {
+      console.error("No token found, cannot update profile");
+      setIsLoading(false);
+      return;
+    }
+    auth
+      .updateUserInfo(name, avatar)
+      .then(({name, avatar, email}) => {
+        setCurrentUser({name, avatar, email});
+        closeActiveModal();
+        console.log("Profile updated successfully");
+      })
+      .catch((err) => {
+      console.error("Profile update failed:", err);
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop the loading indicator
+      });
+  }
+
 
   return (
     <div className="page">
@@ -368,11 +391,10 @@ function App() {
           />
           <EditProfileModal
             closeActiveModal={closeActiveModal} 
-            onAddItem={onAddItem} 
             isOpen={activeModal === "edit-profile"} 
             modalRef={modalRef}
-            activeModal={activeModal}
             isLoading={isLoading}
+            handleUpdateProfile={handleUpdateProfile}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

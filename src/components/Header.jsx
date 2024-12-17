@@ -36,16 +36,16 @@ function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherD
                         + Add clothes
                         </button>
                         <Link to="/profile" className="header__link">
-                        <p className="header__username">{currentUser.name}</p>
-                        {currentUser.avatar ? (
-                            <img
-                            src={currentUser.avatar}
-                            alt={currentUser.name}
-                            className="header__avatar"
-                            />
-                        ) : (
-                            generatePlaceholder(currentUser.name)
-                        )}
+                            <p className="header__username">{currentUser.name}</p>
+                            {currentUser.avatar ? (
+                                <img
+                                    src={currentUser.avatar}
+                                    alt={currentUser.name}
+                                    className="header__avatar"
+                                />
+                            ) : (
+                                generatePlaceholder(currentUser.name)
+                            )}
                         </Link>
                     </>
                 ) : (
