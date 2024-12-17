@@ -243,8 +243,8 @@ function App() {
           throw new Error("No token in login response.");
         }
       })
-      .then(({name, email, avatar}) => {
-        setCurrentUser({name, email, avatar});  // save user's data to state
+      .then(({name, email, avatar, _id}) => {
+        setCurrentUser({name, email, avatar, _id});  // save user's data to state
         setIsLoggedIn(true); // log the user in
         console.log("Logged in successfully");
         const redirectPath = location.state?.from?.pathname || "/";
