@@ -191,7 +191,6 @@ function App() {
         // data to state
         setIsLoggedIn(true);
         setCurrentUser({ name, email, avatar });
-        console.log(currentUser);
       })
       .catch((err) => {
         console.error("Error fetching user info:", err);

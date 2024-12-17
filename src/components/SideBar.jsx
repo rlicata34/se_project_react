@@ -1,7 +1,9 @@
-import avatar from "../assets/avatar.png";
+import { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../blocks/SideBar.css";
 
 function Sidebar({ handleEditProfileClick,handleLogout }) {
+    const { currentUser } = useContext(CurrentUserContext);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -11,8 +13,8 @@ function Sidebar({ handleEditProfileClick,handleLogout }) {
     return ( 
         <div className="sidebar">
             <div className="sidebar__header">
-                <img src={avatar} alt="Default avatar" className="sidebar__avatar" />
-                <p className="sidebar__username">Terrence Tegegne</p>
+                <img src={currentUser.avatar} alt={currentUser.name} className="sidebar__avatar" />
+                <p className="sidebar__username">{currentUser.name}</p>
             </div>
             <button  
                 type="button" 
