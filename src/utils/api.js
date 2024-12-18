@@ -36,13 +36,39 @@ function addNewItem(name, imageUrl, weather) {
 }
 
 function deleteItem(itemId) {
-    return request(`${baseUrl}/items/${itemId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        }
-    });
+  return request(`${baseUrl}/items/${itemId}`, {
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+      }
+  });
 }
 
-export { getItems, addNewItem, deleteItem, checkResponse };
+function addCardLike (itemId) {
+  return request(`${baseUrl}/items/${itemId}/likes`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+  }).then((data) => {
+      console.log("Card like response:", data); // Debug log
+      return data;
+  });
+}
+
+function removeCardLike(itemId) {
+  return request(`${baseUrl}/items/${itemId}/likes`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((data) => {
+      console.log("Card dislike respose:", data); // Debug log
+      return data;
+  });
+}
+
+export { getItems, addNewItem, deleteItem, checkResponse, addCardLike, removeCardLike };

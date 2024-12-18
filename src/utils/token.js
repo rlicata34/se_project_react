@@ -9,7 +9,6 @@ export const setToken = (token) =>
 // TOKEN_KEY from localStorage.
 export const getToken = () => {
   const token = localStorage.getItem(TOKEN_KEY);
-  console.log("Retrieved token:", token); // Debug log
   return token;
 };
 

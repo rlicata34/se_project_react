@@ -16,7 +16,7 @@ import { APIkey, coordinates } from "../utils/constants";
 import { getWeather, filterWeatherData } from '../utils/weatherApi';
 import { CurrentTemperatureUnitContext } from '../contexts/CurrentTemperatureUnitContext';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { getItems, addNewItem, deleteItem } from '../utils/api';
+import { getItems, addNewItem, deleteItem, addCardLike, removeCardLike } from '../utils/api';
 import { setToken, getToken, removeToken } from "../utils/token";
 import * as auth from "../utils/auth";
 
@@ -38,6 +38,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({ name: "", email: "", avatar: "" });
+  const [isLiked, setIsLiked] = useState(false);
   // const [isFormValid, setIsFormValid] = useState(false);
   // const [isActive, setIsActive] = useState(false);
 
@@ -85,6 +86,34 @@ function App() {
         console.error("Error deleting item", err);
       });
   }
+
+  const handleCardLike = ({ _id }) => {
+    const token = getToken();
+    // Check if this card is not currently liked
+    !isLiked
+      ? // if so, send a request to add the user's id to the card's likes array 
+        // the first argument is the card's id
+        addCardLike(_id, token)
+          .then((response) => {
+            const updatedCard = response.item;
+            setIsLiked(true);
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === _id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      : // if not, send a request to remove the user's id from the card's likes array
+        // the first argument is the card's id
+        removeCardLike(_id, token) 
+          .then((response) => {
+            const updatedCard = response.item;
+            setIsLiked(false);
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === _id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err));
+  };
 
   const closeActiveModal = () => {
     setActiveModal("");
@@ -310,6 +339,7 @@ function App() {
                   handleCardClick={handleCardClick} 
                   modalRef={modalRef}
                   clothingItems={clothingItems}
+                  onCardLike={handleCardLike}
                 />} 
               />
               <Route 
@@ -322,6 +352,7 @@ function App() {
                       handleAddClick={handleAddClick}
                       handleEditProfileClick={handleEditProfileClick}
                       handleLogout={handleLogout} 
+                      onCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 } 

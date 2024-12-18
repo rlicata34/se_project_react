@@ -1,5 +1,7 @@
 import { getToken } from "./token";
 
+const token = getToken();
+
 const baseUrl = "http://localhost:3001"
 
 function request(url, options) {
@@ -52,7 +54,6 @@ export const getUserInfo = (token) => {
 };
 
 export const updateUserInfo = (name, avatar) => {
-  const token = getToken();
 
   return request(`${baseUrl}/users/me`, {
     method: "PATCH",
