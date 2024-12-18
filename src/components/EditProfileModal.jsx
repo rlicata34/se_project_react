@@ -4,37 +4,33 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 
 function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modalRef, isLoading/*, validationRules, validateForm*/, isFormValid } ) {
-    const [name, setName] = useState("");
-    const [avatar, setAvatarUrl] = useState("");
+    
+    const [formData, setFormData] = useState({ name: "", avatar: "" });
+    const [isButtonActive, setIsButtonActive] = useState(false);
     const { currentUser } = useContext(CurrentUserContext);
 
     useEffect(() => {
-        if(isOpen) {
-            setName(currentUser.name);
-            setAvatarUrl(currentUser.avatar);
+        if (isOpen) {
+            setFormData({ name: currentUser.name, avatar: currentUser.avatar });
+            setIsButtonActive(false);
         }
     }, [isOpen, currentUser]);
 
-    // useEffect(() => {
-    
-    //     // Validate the form whenever fields change
-    //     validateForm({ name, avatar, password, email }, validationRules, isActive);
-    //     console.log(isFormValid);
-    // }, [name, avatar, password, email, validateForm, validationRules, isActive]);
-    
-    const handleNameChange = (evt) => {
-        setName(evt.target.value);
-    }
+    const handleChange = (evt) => {
+        const { name, value } = evt.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value}));
 
-    
-    const handleUrlChange = (evt) => {
-        setAvatarUrl(evt.target.value);
+        const allFieldsFilled = Object.values({ ...formData, [name]: value }).every((field) => field.trim() !== "");
+        setIsButtonActive(allFieldsFilled);
     }
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleUpdateProfile({ name, avatar });
-    }
+        
+        if (evt.target.checkValidity()) {
+            handleUpdateProfile(formData);
+        }
+    };
 
     
     return (  
@@ -45,7 +41,7 @@ function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modal
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
-            buttonClass={`modal__submit-button-edit-profile ${isFormValid ? "modal__submit-button_active" : ""}`}
+            buttonClass={`modal__submit-button-edit-profile ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >
 
             <label className="modal__label">
@@ -56,8 +52,8 @@ function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modal
                     name="name"
                     placeholder="Name" 
                     required
-                    value={name}
-                    onChange={handleNameChange}
+                    value={formData.name}
+                    onChange={handleChange}
                 />
             </label>
             <label className="modal__label">
@@ -65,11 +61,11 @@ function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modal
                 <input 
                     type="url" 
                     className="modal__input" 
-                    name="avatar-url"
+                    name="avatar"
                     placeholder="Avatar URL" 
                     required
-                    value={avatar}
-                    onChange={handleUrlChange}
+                    value={formData.avatar}
+                    onChange={handleChange}
                 />
             </label>
             

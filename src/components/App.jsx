@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-// import validator from "validator";
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
@@ -39,12 +38,25 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({ name: "", email: "", avatar: "" });
   const [isLiked, setIsLiked] = useState(false);
-  // const [isFormValid, setIsFormValid] = useState(false);
-  // const [isActive, setIsActive] = useState(false);
+
+  const navigate = useNavigate();
 
   const updateCurrentUser = (user) => setCurrentUser(user);
   const clearCurrentUser = () => setCurrentUser({ name: "", email: "", avatar: "" });
   
+  const closeActiveModal = () => {
+    setActiveModal("");
+
+    if (activeModal === "sign-in" || activeModal === "sign-up") {
+      navigate("/"); 
+    }
+  };
+
+  const handleToggleSwitchChange = () => {
+    if (currentTemperatureUnit === "F") setCurrentTemperatureUnit("C")
+    if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F")
+  }
+
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
@@ -52,7 +64,6 @@ function App() {
 
   const handleAddClick = () => {
     setActiveModal("add-garmet");
-    // setIsActive(true);
   };
 
   const handleOpenConfirmationModal = (itemId) => {
@@ -62,17 +73,14 @@ function App() {
 
   const handleSignUpClick = () => {
     setActiveModal("sign-up");
-    // setIsActive(true);
   };
 
   const handleSignInClick = () => {
     setActiveModal("sign-in");
-    // setIsActive(true);
   };
 
   const handleEditProfileClick = () => {
     setActiveModal("edit-profile");
-    // setIsActive(true);
   };
 
   const handleCardDelete = ()=> {
@@ -89,10 +97,9 @@ function App() {
 
   const handleCardLike = ({ _id }) => {
     const token = getToken();
-    // Check if this card is not currently liked
+
     !isLiked
-      ? // if so, send a request to add the user's id to the card's likes array 
-        // the first argument is the card's id
+      ?
         addCardLike(_id, token)
           .then((response) => {
             const updatedCard = response.item;
@@ -102,8 +109,7 @@ function App() {
             );
           })
           .catch((err) => console.log(err))
-      : // if not, send a request to remove the user's id from the card's likes array
-        // the first argument is the card's id
+      : 
         removeCardLike(_id, token) 
           .then((response) => {
             const updatedCard = response.item;
@@ -115,37 +121,94 @@ function App() {
           .catch((err) => console.log(err));
   };
 
-  const closeActiveModal = () => {
-    setActiveModal("");
+  const handleRegistration = ({ name, avatar, email, password }) => {
+    auth
+      .register(name, avatar, password, email) 
+      .then(() => auth.login(email, password)) 
+      .then((data) => {
+        setIsLoading(true);
+        console.log("Registration response:", data);
+        if (data.token) {
+          setToken(data.token); 
+          setCurrentUser({ name, email, avatar });
+          setIsLoggedIn(true);
+          closeActiveModal();
+        } else {
+          console.error("No token in registration response:", data);
+        }
+
+      })
+      .catch((err) => {
+        console.error("Error during registration or login:", err);
+      })
+      .finally(() => {
+        setIsLoading(false); 
+      });
   };
 
-  const handleToggleSwitchChange = () => {
-    if (currentTemperatureUnit === "F") setCurrentTemperatureUnit("C")
-    if (currentTemperatureUnit === "C") setCurrentTemperatureUnit("F")
-  }
+  const handleLogin = ({ email, password }) => {
 
-  // Generic validation function
-  // const validateForm = (fields, rules, isActive) => {
-  //   if (!isActive) {
-  //     return setIsFormValid(false);
-  //   }
+    if (!email || !password) {
+      console.error("Missing email or password");
+      return;
+    }    
+    
+    auth
+      .login(email, password)
+        .then((data) => {
+          if (data.token) {
+            setToken(data.token); 
+            setIsLoading(true);
+            return auth.getUserInfo(data.token); 
+          } else {
+            throw new Error("No token in login response.");
+          }
+        })
+        .then(({name, email, avatar, _id}) => {
+          setCurrentUser({name, email, avatar, _id});  // save user's data to state
+          setIsLoggedIn(true); // log the user in
+          console.log("Logged in successfully");
+          const redirectPath = location.state?.from?.pathname || "/";
+          navigate(redirectPath); 
+        })
+        .catch((err) => {
+          console.error("Login failed:", err);
+        })
+        .finally(() => {
+          setIsLoading(false); 
+        });
+      };
 
-  //   const isValid = Object.entries(fields).every(([key, value]) =>
-  //     rules[key] ? rules[key](value) : true
-  //   );
+  const handleLogout = () => {
+    removeToken();
+    setIsLoggedIn(false);
+    clearCurrentUser();
+    console.log("User logged out successfully");
+  };
 
-  //   console.log("Validation Results:", fields, isValid); // Debugging log
-  //   return setIsFormValid(isValid);
-  // };
+  const handleUpdateProfile =({name, avatar}) => {
+    const token = getToken();
+    if (!token) {
+      console.error("No token found, cannot update profile");
+      setIsLoading(false);
+      return;
+    }
+    auth
+      .updateUserInfo(name, avatar)
+      .then(({name, avatar, email}) => {
+        setIsLoading(true);
+        setCurrentUser({name, avatar, email});
+        closeActiveModal();
+        console.log("Profile updated successfully");
+      })
+      .catch((err) => {
+      console.error("Profile update failed:", err);
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop the loading indicator
+      });
+  };
 
-  // const validationRules = {
-  //   email: (value) => validator.isEmail(value), // Valid email
-  //   password: (value) => validator.isLength(value, { min: 3 }), // Min 3 characters
-  //   name: (value) => !validator.isEmpty(value.trim()), // Non-empty name
-  //   avatar: (value) => validator.isURL(value), // Valid URL
-  //   imageUrl: (value) => validator.isURL(value), // Valid URL for AddItemModal
-  //   weather: (value) => ["hot", "warm", "cold"].includes(value), // Valid weather types
-  // };
 
   const onAddItem = (item) => {
     addNewItem(item.name, item.imageUrl, item.weather)
@@ -226,97 +289,6 @@ function App() {
       });
   }, []);
 
-  const navigate = useNavigate();
-
-  const handleRegistration = ({ name, avatar, email, password }) => {
-    auth
-      .register(name, avatar, password, email) 
-      .then(() => auth.login(email, password)) // Log in immediately
-      .then((data) => {
-        setIsLoading(true);
-        console.log("Registration response:", data);
-        if (data.token) {
-          setToken(data.token); // Save the token
-          setCurrentUser({ name, email, avatar });
-          setIsLoggedIn(true);
-          closeActiveModal();
-        } else {
-          console.error("No token in registration response:", data);
-        }
-
-      })
-      .catch((err) => {
-        console.error("Error during registration or login:", err);
-        // Optionally, handle errors by showing feedback to the user
-      })
-      .finally(() => {
-        setIsLoading(false); // Stop loading indicator
-      });
-  };
-
-  const handleLogin = ({ email, password }) => {
-
-    if (!email || !password) {
-      console.error("Missing email or password");
-      return;
-    }    
-    
-  auth
-    .login(email, password)
-      .then((data) => {
-        if (data.token) {
-          setToken(data.token); // Save the token
-          setIsLoading(true);
-          return auth.getUserInfo(data.token); // Fetch user info after login
-        } else {
-          throw new Error("No token in login response.");
-        }
-      })
-      .then(({name, email, avatar, _id}) => {
-        setCurrentUser({name, email, avatar, _id});  // save user's data to state
-        setIsLoggedIn(true); // log the user in
-        console.log("Logged in successfully");
-        const redirectPath = location.state?.from?.pathname || "/";
-        navigate(redirectPath); 
-      })
-      .catch((err) => {
-        console.error("Login failed:", err);
-      })
-      .finally(() => {
-        setIsLoading(false); 
-      });
-    };
-
-  const handleLogout = () => {
-    removeToken();
-    setIsLoggedIn(false);
-    clearCurrentUser();
-    console.log("User logged out successfully");
-  }
-
-  const handleUpdateProfile =({name, avatar}) => {
-    setIsLoading(true);
-    const token = getToken();
-    if (!token) {
-      console.error("No token found, cannot update profile");
-      setIsLoading(false);
-      return;
-    }
-    auth
-      .updateUserInfo(name, avatar)
-      .then(({name, avatar, email}) => {
-        setCurrentUser({name, avatar, email});
-        closeActiveModal();
-        console.log("Profile updated successfully");
-      })
-      .catch((err) => {
-      console.error("Profile update failed:", err);
-      })
-      .finally(() => {
-        setIsLoading(false); // Stop the loading indicator
-      });
-  }
-
 
   return (
     <div className="page">
@@ -367,10 +339,6 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
-                    // isActive={isActive}
-                    // validationRules={validationRules}
-                    // validateForm={validateForm}
-                    // isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -384,10 +352,6 @@ function App() {
                     modalRef={modalRef}
                     activeModal={activeModal}
                     isLoading={isLoading}
-                    // isActive={isActive}
-                    // validationRules={validationRules}
-                    // validateForm={validateForm} 
-                    // isFormValid={isFormValid} // Pass form validity state
                   />
                 } 
               />
@@ -401,10 +365,6 @@ function App() {
             modalRef={modalRef}
             activeModal={activeModal}
             isLoading={isLoading}
-            // isActive={isActive}
-            // validationRules={validationRules}
-            // validateForm={validateForm}
-            // isFormValid={isFormValid} // Pass form validity state
           />
           <ItemModal 
             activeModal={activeModal} 

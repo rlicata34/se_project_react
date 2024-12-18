@@ -20,6 +20,5 @@ export default function ProtectedRoute({
     return <Navigate to="/" state={{ from: location }} />;
   }
 
-  // Otherwise, display the children of the current route.
   return children;
 }

@@ -1,39 +1,33 @@
 import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
-// import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../blocks/LoginModal.css";
 
-function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeModal, isLoading, isActive, validationRules, validateForm, isFormValid} ) {
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    // const { updateCurrentUser } = useContext(CurrentUserContext); // Access context function to update user
+function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, isLoading} ) {
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [isButtonActive, setIsButtonActive] = useState(false);
 
     useEffect(() => {
-        if(isOpen) {
-            setEmail("");
-            setPassword("");
+        if (isOpen) {
+            setFormData({ email: "", password: "" });
+            setIsButtonActive(false);
         }
-    }, [isOpen])
+    }, [isOpen]);
 
-    // useEffect(() => {
-    //     // Validate the form whenever fields change
-    //     validateForm({ password, email }, validationRules, isActive);
-    // }, [password, email, validateForm, validationRules, isActive]);
-    
+    const handleChange = (evt) => {
+        const { name, value } = evt.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value}));
 
-    const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value)
+        const allFieldsFilled = Object.values({ ...formData, [name]: value }).every((field) => field.trim() !== "");
+        setIsButtonActive(allFieldsFilled);
     }
-
-    const handleEmailChange = (evt) => {
-        setEmail(evt.target.value)
-    }
-
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleLogin({ email, password });
-    };  
+
+        if (evt.target.checkValidity()) {
+            handleLogin(formData);
+        }
+    };
 
     
     return (  
@@ -44,7 +38,7 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
             onClose={closeActiveModal}
             modalRef={modalRef}
             onSubmit={handleSubmit}
-            buttonClass={`modal__submit-button-login ${isFormValid ? "modal__submit-button_active" : ""}`}
+            buttonClass={`modal__submit-button-login ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >
             <label className="modal__label">
                 Email*{" "}
@@ -54,19 +48,20 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, activeMod
                     name="email"
                     placeholder="Email" 
                     required
-                    value={email}
-                    onChange={handleEmailChange}
+                    value={formData.email}
+                    onChange={handleChange}
                 />
             </label>
             <label className="modal__label">
                 Password*{" "}
                 <input 
                     type="password" 
+                    name="password"
                     className="modal__input" 
                     placeholder="Password" 
                     required
-                    value={password}
-                    onChange={handlePasswordChange}
+                    value={formData.password}
+                    onChange={handleChange}
                 />
             </label>
             <button type="button" className="login-modal__button" >or Sign Up</button>
