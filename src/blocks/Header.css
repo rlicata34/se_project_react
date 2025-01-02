@@ -59,15 +59,8 @@
     height: 40px;
 }
 
-.header__sign-up-link {
-    margin: 0 0 0 20px;
-}
-
-.header__sign-in-link {
-    margin: 0 0 0 20px;
-}
-
 .header__sign-up-button {
+    margin: 0 0 0 20px;
     padding: 0;
     border: none;
     cursor: pointer;
@@ -78,6 +71,7 @@
 }
 
 .header__sign-in-button {
+    margin: 0 0 0 20px;
     padding: 0;
     border: none;
     cursor: pointer;

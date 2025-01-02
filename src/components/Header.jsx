@@ -29,11 +29,11 @@ function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherD
                 {isLoggedIn ? (
                     <>
                         <button
-                        type="button"
-                        className="header__add-clothes-button"
-                        onClick={handleAddClick}
-                        >
-                        + Add clothes
+                            type="button"
+                            className="header__add-clothes-button"
+                            onClick={handleAddClick}
+                            >
+                            + Add clothes
                         </button>
                         <Link to="/profile" className="header__link">
                             <p className="header__username">{currentUser.name}</p>
@@ -50,24 +50,20 @@ function Header({ handleAddClick, handleSignUpClick, handleSignInClick, weatherD
                     </>
                 ) : (
                     <>
-                        <Link to="/signup" className="header__sign-up-link">
-                            <button
-                                type="button"
-                                className="header__sign-up-button"
-                                onClick={handleSignUpClick}
-                            >
-                                Sign Up
-                            </button>
-                        </Link>
-                        <Link to="/signin" className="header__sign-in-link">
-                            <button
-                                type="button"
-                                className="header__sign-in-button"
-                                onClick={handleSignInClick}
-                            >
-                                Sign In
-                            </button>
-                        </Link>
+                        <button
+                            type="button"
+                            className="header__sign-up-button"
+                            onClick={handleSignUpClick}
+                        >
+                            Sign Up
+                        </button>
+                        <button
+                            type="button"
+                            className="header__sign-in-button"
+                            onClick={handleSignInClick}
+                        >
+                            Sign In
+                        </button>
                     </>
                 )}
             </div>

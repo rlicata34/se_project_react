@@ -329,32 +329,6 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/signup" 
-                element={
-                  <RegisterModal 
-                    closeActiveModal={closeActiveModal} 
-                    handleRegistration = {handleRegistration} 
-                    isOpen={activeModal === "sign-up"} 
-                    modalRef={modalRef}
-                    activeModal={activeModal}
-                    isLoading={isLoading}
-                  />
-                } 
-              />
-              <Route 
-                path="/signin" 
-                element={
-                  <LoginModal 
-                    closeActiveModal={closeActiveModal} 
-                    handleLogin = {handleLogin} 
-                    isOpen={activeModal === "sign-in"} 
-                    modalRef={modalRef}
-                    activeModal={activeModal}
-                    isLoading={isLoading}
-                  />
-                } 
-              />
             </Routes>
             <Footer />
           </div>
@@ -385,6 +359,22 @@ function App() {
             modalRef={modalRef}
             isLoading={isLoading}
             handleUpdateProfile={handleUpdateProfile}
+          />
+          <RegisterModal 
+            closeActiveModal={closeActiveModal} 
+            handleRegistration = {handleRegistration} 
+            isOpen={activeModal === "sign-up"} 
+            modalRef={modalRef}
+            activeModal={activeModal}
+            isLoading={isLoading}
+          />
+          <LoginModal 
+            closeActiveModal={closeActiveModal} 
+            handleLogin = {handleLogin} 
+            isOpen={activeModal === "sign-in"} 
+            modalRef={modalRef}
+            activeModal={activeModal}
+            isLoading={isLoading}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>
