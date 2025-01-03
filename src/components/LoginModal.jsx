@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import ModalWithForm from "./ModalWithForm";
 import "../blocks/LoginModal.css";
 
-function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, isLoading} ) {
+function LoginModal({ closeActiveModal, handleLogin, isOpen, activeModal, isLoading} ) {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
 
@@ -34,9 +34,9 @@ function LoginModal({ closeActiveModal, handleLogin, isOpen, modalRef, isLoading
         <ModalWithForm
             title="Log In" 
             buttonText={isLoading? "Logging in..." : "Log In"}
-            isOpen={isOpen} 
+            isOpen={isOpen}
+            activeModal={activeModal} 
             onClose={closeActiveModal}
-            modalRef={modalRef}
             onSubmit={handleSubmit}
             buttonClass={`modal__submit-button-login ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >

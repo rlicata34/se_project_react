@@ -1,8 +1,28 @@
-
+import { useEffect, useRef } from "react";
 import "../blocks/ModalWithForm.css";
 
-function ModalWithForm({ children, buttonText, title, isOpen, onClose, modalRef, activeModal, onSubmit, buttonClass }) {
-    
+function ModalWithForm({ children, buttonText, title, isOpen, onClose, activeModal, onSubmit, buttonClass }) {
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        function handleOutsideClick(evt) {
+            console.log("Modal Ref:", modalRef.current);
+            console.log("Event Target:", evt.target);
+
+            // Close the modal if the click is outside the modal content
+            if (modalRef.current && !modalRef.current.contains(evt.target)) {
+                onClose();
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [isOpen]); 
 
     return ( 
         activeModal && (

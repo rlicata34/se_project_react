@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
 import "../blocks/RegisterModal.css";
 
-function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef, isLoading } ) {
+function RegisterModal({ closeActiveModal, handleRegistration, isOpen, activeModal, isLoading } ) {
     const [formData, setFormData] = useState({ name: "", avatar: "", email: "", password: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
 
@@ -35,8 +35,8 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, modalRef,
             title="Sign Up" 
             buttonText={isLoading ? "Signing Up..." : "Sign Up"}
             isOpen={isOpen} 
+            activeModal={activeModal}
             onClose={closeActiveModal}
-            modalRef={modalRef}
             onSubmit={handleSubmit}
             buttonClass={`modal__submit-button-register ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >

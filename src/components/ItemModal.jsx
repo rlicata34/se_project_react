@@ -1,9 +1,32 @@
 import { useContext } from "react";
+import { useEffect, useRef } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 import "../blocks/ItemModal.css";
 
-function ItemModal({ activeModal, onClose, card, modalRef, handleOpenConfirmationModal }) {
+function ItemModal({ activeModal, onClose, card, handleOpenConfirmationModal, isOpen }) {
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        function handleOutsideClick(evt) {
+            console.log("Modal Ref:", modalRef.current);
+            console.log("Event Target:", evt.target);
+
+            // Close the modal if the click is outside the modal content
+            if (modalRef.current && !modalRef.current.contains(evt.target)) {
+                onClose();
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [isOpen]); 
+
     if (activeModal !== "preview") return null;
 
     const { currentUser } = useContext(CurrentUserContext);

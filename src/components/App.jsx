@@ -240,15 +240,6 @@ function App() {
 
   useEffect(() => {
 
-    function handleOutsideClick(evt) {
-      console.log("Modal Ref:", modalRef.current);
-      console.log("Event Target:", evt.target);
-
-      if (modalRef.current && !modalRef.current.contains(evt.target)) {
-        closeActiveModal();
-      }
-    }
-
     function handleEscapeKey(evt) {
       if (evt.key === "Escape") {
         closeActiveModal();
@@ -256,12 +247,10 @@ function App() {
     }
 
     if (activeModal) {
-      document.addEventListener("mousedown", handleOutsideClick);
       document.addEventListener("keydown", handleEscapeKey);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [activeModal]);
@@ -343,6 +332,7 @@ function App() {
             onClose={closeActiveModal} 
             modalRef={modalRef}
             handleOpenConfirmationModal={handleOpenConfirmationModal}
+            isOpen={activeModal === "preview"}
           />
           <ConfirmationModal 
             activeModal={activeModal}

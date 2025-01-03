@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading}) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, activeModal, isLoading}) {
 
     const [formData, setFormData] = useState({ name: "", imageUrl: "", weather: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
@@ -50,7 +50,6 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModa
           buttonText={isLoading? "Saving..." : "Add garment"}
           isOpen={isOpen} 
           onClose={closeActiveModal}
-          modalRef={modalRef}
           activeModal={activeModal}
           onSubmit={handleSubmit}
           buttonClass={`modal__submit-button-add-item ${isButtonActive ? "modal__submit-button_active" : ""}`}
