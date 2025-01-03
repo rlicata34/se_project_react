@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 
-function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modalRef, isLoading/*, validationRules, validateForm*/, isFormValid } ) {
+function EditProfileModal({ activeModal, closeActiveModal, handleUpdateProfile, isOpen, modalRef, isLoading } ) {
     
     const [formData, setFormData] = useState({ name: "", avatar: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
@@ -40,6 +40,7 @@ function EditProfileModal({ closeActiveModal, handleUpdateProfile, isOpen, modal
             isOpen={isOpen} 
             onClose={closeActiveModal}
             modalRef={modalRef}
+            activeModal={activeModal}
             onSubmit={handleSubmit}
             buttonClass={`modal__submit-button-edit-profile ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >

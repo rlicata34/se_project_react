@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from './Header'
 import Main from './Main'
 import Footer from './Footer';
@@ -39,17 +39,11 @@ function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", email: "", avatar: "" });
   const [isLiked, setIsLiked] = useState(false);
 
-  const navigate = useNavigate();
-
   const updateCurrentUser = (user) => setCurrentUser(user);
   const clearCurrentUser = () => setCurrentUser({ name: "", email: "", avatar: "" });
   
   const closeActiveModal = () => {
     setActiveModal("");
-
-    if (activeModal === "sign-in" || activeModal === "sign-up") {
-      navigate("/"); 
-    }
   };
 
   const handleToggleSwitchChange = () => {
@@ -67,6 +61,7 @@ function App() {
   };
 
   const handleOpenConfirmationModal = (itemId) => {
+    console.log("Opening confirmation modal for item ID:", itemId);
     setActiveModal("confirm");
     setSaveToDelete(itemId)
   }
@@ -167,9 +162,9 @@ function App() {
         .then(({name, email, avatar, _id}) => {
           setCurrentUser({name, email, avatar, _id});  // save user's data to state
           setIsLoggedIn(true); // log the user in
+          closeActiveModal();
           console.log("Logged in successfully");
-          const redirectPath = location.state?.from?.pathname || "/";
-          navigate(redirectPath); 
+
         })
         .catch((err) => {
           console.error("Login failed:", err);
@@ -244,7 +239,11 @@ function App() {
 
 
   useEffect(() => {
+
     function handleOutsideClick(evt) {
+      console.log("Modal Ref:", modalRef.current);
+      console.log("Event Target:", evt.target);
+
       if (modalRef.current && !modalRef.current.contains(evt.target)) {
         closeActiveModal();
       }
@@ -269,18 +268,16 @@ function App() {
 
   useEffect(() => {
     const jwt = getToken();
+    console.log("JWT:", jwt);
   
     if (!jwt) {
       console.warn("No token found");
       return;
     }
   
-    // Call the function, passing it the JWT.
     auth
       .getUserInfo(jwt)
       .then(({ name, email, avatar, _id }) => {
-        // If the response is successful, log the user in, save their 
-        // data to state
         setIsLoggedIn(true);
         setCurrentUser({ name, email, avatar, _id });
       })
@@ -354,6 +351,7 @@ function App() {
             handleCardDelete={handleCardDelete}
           />
           <EditProfileModal
+            activeModal={activeModal}
             closeActiveModal={closeActiveModal} 
             isOpen={activeModal === "edit-profile"} 
             modalRef={modalRef}

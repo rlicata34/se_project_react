@@ -3,7 +3,7 @@ import ModalWithForm from "./ModalWithForm";
 
 import "../blocks/AddItemModal.css";
 
-function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, isLoading}) {
+function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, activeModal, isLoading}) {
 
     const [formData, setFormData] = useState({ name: "", imageUrl: "", weather: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
@@ -43,13 +43,15 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, isLoading}
         }
     };
 
-    return ( 
+    return (
+      activeModal && ( 
         <ModalWithForm 
           title="New garmet" 
           buttonText={isLoading? "Saving..." : "Add garment"}
           isOpen={isOpen} 
           onClose={closeActiveModal}
           modalRef={modalRef}
+          activeModal={activeModal}
           onSubmit={handleSubmit}
           buttonClass={`modal__submit-button-add-item ${isButtonActive ? "modal__submit-button_active" : ""}`}
         >
@@ -116,7 +118,8 @@ function AddItemModal({closeActiveModal, onAddItem, isOpen, modalRef, isLoading}
             </div>
           </fieldset>
         </ModalWithForm>
-     );
+      )
+    );
 }
 
 export default AddItemModal;

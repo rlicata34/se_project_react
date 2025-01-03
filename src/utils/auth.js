@@ -1,6 +1,4 @@
-import { getToken } from "./token";
 
-const token = getToken();
 
 const baseUrl = "http://localhost:3001"
 

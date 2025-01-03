@@ -1,7 +1,6 @@
-import { getToken } from "./token";
+
 
 const baseUrl = 'http://localhost:3001';
-const token = getToken();
 
 function request(url, options) {
     return fetch(url, options).then(checkResponse);
@@ -20,7 +19,7 @@ function getItems() {
     });
 }
 
-function addNewItem(name, imageUrl, weather) {
+function addNewItem(name, imageUrl, weather, token) {
     return request(`${baseUrl}/items`, {
       method: "POST",
       headers: {
@@ -35,7 +34,7 @@ function addNewItem(name, imageUrl, weather) {
     });
 }
 
-function deleteItem(itemId) {
+function deleteItem(itemId, token) {
   return request(`${baseUrl}/items/${itemId}`, {
       method: "DELETE",
       headers: {
@@ -45,7 +44,7 @@ function deleteItem(itemId) {
   });
 }
 
-function addCardLike (itemId) {
+function addCardLike (itemId, token) {
   return request(`${baseUrl}/items/${itemId}/likes`, {
       method: "PUT",
       headers: {
@@ -58,7 +57,7 @@ function addCardLike (itemId) {
   });
 }
 
-function removeCardLike(itemId) {
+function removeCardLike(itemId, token) {
   return request(`${baseUrl}/items/${itemId}/likes`, {
     method: "DELETE",
     headers: {
