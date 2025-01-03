@@ -24,7 +24,7 @@ function Sidebar({ handleEditProfileClick,handleLogout }) {
                 Change profile data
             </button>
             <button 
-                type="submit" 
+                type="button" 
                 className="sidebar__button-logout" 
                 onClick={handleSubmit} 
             >

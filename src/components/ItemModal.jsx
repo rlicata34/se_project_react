@@ -5,6 +5,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "../blocks/ItemModal.css";
 
 function ItemModal({ activeModal, onClose, card, handleOpenConfirmationModal, isOpen }) {
+    const { currentUser } = useContext(CurrentUserContext);
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -24,8 +25,6 @@ function ItemModal({ activeModal, onClose, card, handleOpenConfirmationModal, is
     }, [isOpen]); 
 
     if (activeModal !== "preview") return null;
-
-    const { currentUser } = useContext(CurrentUserContext);
 
     const isOwn = card.owner === currentUser._id;
 

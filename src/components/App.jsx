@@ -25,7 +25,7 @@ import '../blocks/App.css'
 function App() {
   const [weatherData, setWeatherData] = useState({ 
     type: "", 
-    temp: { F: 999 },
+    temp: { F: 999, C: 37 },
     city: "", 
   });
   const [activeModal, setActiveModal] = useState("");
@@ -119,11 +119,11 @@ function App() {
   };
 
   const handleRegistration = ({ name, avatar, email, password }) => {
+    setIsLoading(true);
     auth
       .register(name, avatar, password, email) 
       .then(() => auth.login(email, password)) 
       .then((data) => {
-        setIsLoading(true);
         console.log("Registration response:", data);
         if (data.token) {
           setToken(data.token); 
@@ -148,14 +148,15 @@ function App() {
     if (!email || !password) {
       console.error("Missing email or password");
       return;
-    }    
+    }
+    
+    setIsLoading(true);
     
     auth
       .login(email, password)
         .then((data) => {
           if (data.token) {
             setToken(data.token); 
-            setIsLoading(true);
             return auth.getUserInfo(data.token); 
           } else {
             throw new Error("No token in login response.");
@@ -189,10 +190,10 @@ function App() {
       setIsLoading(false);
       return;
     }
+    setIsLoading(true);
     auth
       .updateUserInfo(name, avatar, token)
       .then(({name, avatar, email}) => {
-        setIsLoading(true);
         setCurrentUser((prev) => ({
           ...prev,
           name,
@@ -212,10 +213,11 @@ function App() {
 
 
   const onAddItem = (item) => {
+    setIsLoading(true);
     addNewItem(item.name, item.imageUrl, item.weather, token)
       .then((newItem) => {
-        setIsLoading(true);
         setClothingItems((prevItems) => [newItem, ...prevItems]);
+        setIsLiked(false);
         closeActiveModal();
       })
       .catch((err) => {
