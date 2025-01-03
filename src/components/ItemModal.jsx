@@ -9,10 +9,6 @@ function ItemModal({ activeModal, onClose, card, handleOpenConfirmationModal, is
 
     useEffect(() => {
         function handleOutsideClick(evt) {
-            console.log("Modal Ref:", modalRef.current);
-            console.log("Event Target:", evt.target);
-
-            // Close the modal if the click is outside the modal content
             if (modalRef.current && !modalRef.current.contains(evt.target)) {
                 onClose();
             }

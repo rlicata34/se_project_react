@@ -41,6 +41,8 @@ function App() {
 
   const updateCurrentUser = (user) => setCurrentUser(user);
   const clearCurrentUser = () => setCurrentUser({ name: "", email: "", avatar: "" });
+
+  const token = getToken();
   
   const closeActiveModal = () => {
     setActiveModal("");
@@ -79,7 +81,8 @@ function App() {
   };
 
   const handleCardDelete = ()=> {
-    deleteItem(saveToDelete)
+
+    deleteItem(saveToDelete, token)
       .then(() => {
         setClothingItems((prevItems) => prevItems.filter(item => item._id !== saveToDelete));
         closeActiveModal();
@@ -91,7 +94,6 @@ function App() {
   }
 
   const handleCardLike = ({ _id }) => {
-    const token = getToken();
 
     !isLiked
       ?
@@ -182,17 +184,21 @@ function App() {
   };
 
   const handleUpdateProfile =({name, avatar}) => {
-    const token = getToken();
     if (!token) {
       console.error("No token found, cannot update profile");
       setIsLoading(false);
       return;
     }
     auth
-      .updateUserInfo(name, avatar)
+      .updateUserInfo(name, avatar, token)
       .then(({name, avatar, email}) => {
         setIsLoading(true);
-        setCurrentUser({name, avatar, email});
+        setCurrentUser((prev) => ({
+          ...prev,
+          name,
+          avatar,
+          email
+      }));
         closeActiveModal();
         console.log("Profile updated successfully");
       })
@@ -206,7 +212,7 @@ function App() {
 
 
   const onAddItem = (item) => {
-    addNewItem(item.name, item.imageUrl, item.weather)
+    addNewItem(item.name, item.imageUrl, item.weather, token)
       .then((newItem) => {
         setIsLoading(true);
         setClothingItems((prevItems) => [newItem, ...prevItems]);

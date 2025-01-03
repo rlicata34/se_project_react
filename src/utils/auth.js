@@ -51,7 +51,7 @@ export const getUserInfo = (token) => {
   })
 };
 
-export const updateUserInfo = (name, avatar) => {
+export const updateUserInfo = (name, avatar, token) => {
 
   return request(`${baseUrl}/users/me`, {
     method: "PATCH",
