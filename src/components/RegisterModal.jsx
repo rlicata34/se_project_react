@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
 import "../blocks/RegisterModal.css";
 
-function RegisterModal({ closeActiveModal, handleRegistration, isOpen, activeModal, isLoading } ) {
+function RegisterModal({ closeActiveModal, handleRegistration, isOpen, activeModal, isLoading, handleSignInClick } ) {
     const [formData, setFormData] = useState({ name: "", avatar: "", email: "", password: "" });
     const [isButtonActive, setIsButtonActive] = useState(false);
 
@@ -89,7 +89,13 @@ function RegisterModal({ closeActiveModal, handleRegistration, isOpen, activeMod
                     onChange={handleChange}
                 />
             </label>
-            <button type="button" className="register-modal__button" >or Log In</button>
+            <button 
+                type="button" 
+                className="register-modal__button" 
+                onClick={handleSignInClick}
+            >
+                or Log In
+            </button>
             
         </ModalWithForm>
     );

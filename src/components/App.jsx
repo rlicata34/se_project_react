@@ -355,6 +355,7 @@ function App() {
             modalRef={modalRef}
             activeModal={activeModal}
             isLoading={isLoading}
+            handleSignInClick={handleSignInClick}
           />
           <LoginModal 
             closeActiveModal={closeActiveModal} 
@@ -363,6 +364,7 @@ function App() {
             modalRef={modalRef}
             activeModal={activeModal}
             isLoading={isLoading}
+            handleSignUpClick={handleSignUpClick}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>
