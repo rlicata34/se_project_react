@@ -25,7 +25,7 @@ import '../blocks/App.css'
 function App() {
   const [weatherData, setWeatherData] = useState({ 
     type: "", 
-    temp: { F: 999, C: 37 },
+    temp: { F: 999, C: 999 },
     city: "", 
   });
   const [activeModal, setActiveModal] = useState("");
@@ -93,7 +93,7 @@ function App() {
       });
   }
 
-  const handleCardLike = ({ _id }) => {
+  const handleCardLike = ({ _id }, isLiked) => {
 
     !isLiked
       ?

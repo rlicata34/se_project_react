@@ -16,7 +16,7 @@ function ItemCard({ item, onCardClick, onCardLike }) {
     }
 
     const handleLike = () => {
-        onCardLike(item);
+        onCardLike(item, isLiked);
     }
 
     return item && item.name && item.imageUrl ? ( 

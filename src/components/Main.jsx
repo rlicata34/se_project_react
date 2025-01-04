@@ -9,7 +9,7 @@ function Main({ weatherData, handleCardClick, clothingItems, onCardLike }) {
 
     const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
     
-    let temp = weatherData?.temp?.[currentTemperatureUnit] || 999;
+    let temp = weatherData?.temp?.[currentTemperatureUnit];
     if(currentTemperatureUnit === "F") {
         temp = temp + "\u00B0" + "F";
     } else {
